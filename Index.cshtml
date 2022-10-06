@@ -1,0 +1,52 @@
+﻿@model IEnumerable<WebApplication1.Controllers.City>;
+@{
+    ViewData["Title"] = "Home Page";
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var json = JSON.parse('@Html.Raw(Json.Serialize(@Model))');
+        console.log(json);
+
+        $(document).ready(function () {
+            $("#CityNew option").each(function () {
+                var value = $(this).val();
+                if ($(this).val() != '') {
+                    console.log(value);
+                    $.each(json, function (index, item) {
+                        ////console.log("Agent Id: " + json[index].id);
+                        ////console.log("Agent Name: " + item.name);
+                        ////console.log("Agent Color: " + item.color);
+                        if (value == item.id) {
+                            console.log(value + "," + item.id);
+                            $("#CityNew option").css('background-color', "red");
+                        }
+                    });
+                }
+            });
+        });
+    });
+
+</script>
+<div class="text-center">
+    @Html.DropDownList("City",new SelectList(Model, "Id", "Name"),"City")
+    @Html.DropDownList("CityNew",new SelectList(Model, "Id", "Name"),"City")
+ @*   <select>
+        @foreach (var item in Model)
+        {
+            <option style="background-color: @item.Color;" value="@item.Id">@item.Name</option>
+        }
+    </select>*@
+
+
+
+    @* @Html.DropDownList(
+    "city",
+    new[] {
+    new SelectListItem() { Value = "IN", Text = "India" },
+    new SelectListItem() { Value = "US", Text = "United States" }
+    },
+    "City",
+    new { @class = "form-control"}
+    )*@
+</div>
